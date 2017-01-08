@@ -48,6 +48,7 @@ get_latest_version(){
     ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/shadowsocksr/shadowsocksr-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)
     [ -z ${ver} ] && echo "Error: Get shadowsocks-libev latest version failed" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
+    shadowsocks_libev_folder="shadowsocksr-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
     download_link="https://github.com/shadowsocksr/shadowsocksr-libev/archive/${ver}.tar.gz"
     init_script_link="https://raw.githubusercontent.com/disenone/shadowsocks_install/master/shadowsocksr-libev-debian"
 }
@@ -259,7 +260,7 @@ EOF
 # Install Shadowsocks-libev
 install_shadowsocks(){
     tar zxf ${shadowsocks_libev_ver}.tar.gz
-    cd ${shadowsocks_libev_ver}
+    cd ${shadowsocks_libev_folder}
     ./configure
     make && make install
     if [ $? -eq 0 ]; then
